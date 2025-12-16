@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app-with-cowpoke
+  namespace: default
+  labels:
+    app: example-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example-app
+  template:
+    metadata:
+      labels:
+        app: example-app
+    spec:
+      serviceAccountName: cowpoke
+      containers:
+        # Main application container
+        - name: app
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        
+        # Cowpoke sidecar container
+        - name: cowpoke
+          image: cowpoke:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: WINDOW_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: cowpoke-config
+                  key: window-size
+            - name: SIMILARITY_THRESHOLD
+              valueFrom:
+                configMapKeyRef:
+                  name: cowpoke-config
+                  key: similarity-threshold
+            - name: METRICS_INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  name: cowpoke-config
+                  key: metrics-interval
+            - name: VERBOSE
+              valueFrom:
+                configMapKeyRef:
+                  name: cowpoke-config
+                  key: verbose
+          args:
+            - "--window-size=$(WINDOW_SIZE)"
+            - "--similarity-threshold=$(SIMILARITY_THRESHOLD)"
+            - "--metrics-interval=$(METRICS_INTERVAL)"
+            - "--verbose=$(VERBOSE)"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 5Mi
+            limits:
+              cpu: 50m
+              memory: 5Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 65534
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
