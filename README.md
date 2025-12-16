@@ -111,7 +111,7 @@ data:
 
 ### Prerequisites
 
-- Go 1.21+
+- Go 1.24+
 - Docker (for container builds)
 - kubectl (for deployment)
 

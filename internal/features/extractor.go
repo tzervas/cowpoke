@@ -180,7 +180,10 @@ func (e *Extractor) computeSlope(data []float64) float64 {
 	return slope
 }
 
-// computeAutocorrelation calculates lag-1 autocorrelation
+// computeAutocorrelation calculates lag-1 autocorrelation coefficient
+// This measures the correlation between consecutive values in the time series
+// Return value ranges from -1 (perfect negative correlation) to +1 (perfect positive correlation)
+// A value near 0 indicates no temporal correlation
 func (e *Extractor) computeAutocorrelation(data []float64, mean float64) float64 {
 	n := len(data)
 	if n < 2 {
