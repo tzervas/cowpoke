@@ -1,0 +1,52 @@
+apiVersion: cowpoke.io/v1alpha1
+kind: ScalingPolicy
+metadata:
+  name: example-scaling-policy
+  namespace: default
+spec:
+  # Target workload to monitor
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: example-app
+  
+  # Feature extraction configuration
+  features:
+    windowSize: 300s
+    metricsInterval: 15s
+    
+  # Similarity configuration
+  similarity:
+    threshold: 0.85
+    historySize: 100
+    
+  # Scaling behavior
+  scaling:
+    # Horizontal scaling parameters
+    horizontal:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 10
+      scaleUpPolicy:
+        stabilizationWindow: 60s
+        selectPolicy: Max
+      scaleDownPolicy:
+        stabilizationWindow: 300s
+        selectPolicy: Min
+    
+    # Vertical scaling parameters
+    vertical:
+      enabled: true
+      updateMode: Auto  # Auto, Initial, Off
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            minAllowed:
+              cpu: 100m
+              memory: 128Mi
+            maxAllowed:
+              cpu: 2000m
+              memory: 2Gi
+            controlledResources:
+              - cpu
+              - memory

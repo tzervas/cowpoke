@@ -1,0 +1,33 @@
+apiVersion: cowpoke.io/v1alpha1
+kind: WorkloadPattern
+metadata:
+  name: example-pattern
+  namespace: default
+spec:
+  # Pattern identification
+  name: high-traffic-weekday
+  description: "Weekday business hours traffic pattern"
+  
+  # Feature vector representing this pattern
+  features:
+    mean: 65.5
+    cv: 0.12
+    p50: 64.0
+    p95: 78.0
+    p99: 82.0
+    skewness: 0.3
+    kurtosis: 0.1
+    slope: 0.05
+    autocorr: 0.75
+  
+  # Recommended scaling configuration for this pattern
+  recommendation:
+    replicas: 5
+    resources:
+      cpu: 500m
+      memory: 512Mi
+  
+  # Pattern metadata
+  confidence: 0.92
+  observations: 145
+  lastSeen: "2024-12-16T10:30:00Z"
