@@ -1,5 +1,10 @@
 # Cowpoke
 
+<!-- FLEET-BADGES:BEGIN -->
+[![CI](https://github.com/tzervas/cowpoke/actions/workflows/fleet-ci.yml/badge.svg?branch=main)](https://github.com/tzervas/cowpoke/actions/workflows/fleet-ci.yml?query=branch%3Amain)
+[![Security](https://github.com/tzervas/cowpoke/actions/workflows/fleet-security.yml/badge.svg?branch=main)](https://github.com/tzervas/cowpoke/actions/workflows/fleet-security.yml?query=branch%3Amain)
+<!-- FLEET-BADGES:END -->
+
 **CPU-only Kubernetes Agent for Intelligent Resource Scaling**
 
 Cowpoke is a lightweight Kubernetes agent that uses statistical feature extraction and cosine similarity to provide unified vertical and horizontal pod scaling recommendations, addressing the common problem of HPA/VPA thrashing in dynamic workloads.
